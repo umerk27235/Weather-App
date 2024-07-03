@@ -18,7 +18,7 @@ function Home() {
   const [api, contextHolder] = notification.useNotification();
 
   const openNotification = (isRainyDay) => {
-    let message = 'Seems to be a sunny today!';
+    let message = 'Seems to be sunny today!';
     let description = "Don't forget to take water bottle with you.";
   
     if (isRainyDay) {
