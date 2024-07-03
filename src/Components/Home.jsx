@@ -58,10 +58,10 @@ function Home() {
         {weatherData && (
           <div>
             <h2>Weather Information</h2>
-            <p className='latitude'>Latitude: {latitude}</p>
-            <p className='latitude'>Longitude: {longitude}</p>
-            <p className='latitude'>Temperature: {weatherData.current.temperature_2m} °C</p>
-            <p className='latitude'>Wind Speed: {weatherData.current.wind_speed_10m} m/s</p>
+            <p className='blinkTextEffect'>Latitude: {latitude}</p>
+            <p className='blinkTextEffect'>Longitude: {longitude}</p>
+            <p className='blinkTextEffect'>Temperature: {weatherData.current.temperature_2m} °C</p>
+            <p className='blinkTextEffect'>Wind Speed: {weatherData.current.wind_speed_10m} m/s</p>
             
           </div>
         )}
