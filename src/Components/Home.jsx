@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import { useState } from 'react';
 import { AudioOutlined } from '@ant-design/icons';
 import { Input, Space, Spin, Alert, Button, notification } from 'antd';
@@ -125,7 +124,7 @@ function Home() {
             <p className='blinkTextEffect'>Humidity: {Math.round(weatherData.hourly.relative_humidity_2m[0])}%</p>
             <Space>
               <Button type="primary" onClick={() => openNotification(weatherData.current_weather.temperature >= 30)}>
-                Wanna Know About Today's Prediction?
+                Wanna Know About Today&apos;s Prediction?
               </Button>
             </Space>
             {contextHolder}
