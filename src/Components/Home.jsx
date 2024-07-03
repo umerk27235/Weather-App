@@ -1,8 +1,8 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useState } from 'react';
 import { AudioOutlined } from '@ant-design/icons';
-import { Input, Space, Spin, Alert } from 'antd';
+import { Input, Space, Spin, Alert, Button, notification } from 'antd';
 import '../App.css';
-
 
 function Home() {
   const { Search } = Input;
@@ -15,10 +15,35 @@ function Home() {
     />
   );
 
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotification = (isRainyDay) => {
+    let message = 'Seems to be a sunny today!';
+    let description = "Don't forget to take water bottle with you.";
+  
+    if (isRainyDay) {
+      message = 'It\'s going to rain!';
+      description = 'Take your umbrella with you.';
+    }
+  
+    api.open({
+      message,
+      description,
+      duration: 6,
+      style: {
+        width: 600,
+        backgroundColor: isRainyDay ? '#9099a1': '#fadb14', 
+        color: isRainyDay ? '#fa541c' : '#333',
+      },
+      placement: 'topRight', 
+    });
+  };
+  
+
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  
+
   const fetchWeatherData = async (latitude, longitude) => {
     const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m`;
     try {
@@ -34,7 +59,6 @@ function Home() {
       setLoading(false);
     }
   };
-  
 
   const fetchCoordinates = async (city) => {
     const geocodeUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${city}`;
@@ -55,18 +79,17 @@ function Home() {
       return null;
     }
   };
-  
 
   const onSearch = async (city) => {
     if (!city.trim()) {
       setError('Please enter a valid city name');
-      setWeatherData(null); 
+      setWeatherData(null);
       setLoading(false);
       return;
     }
     setLoading(true);
     setError(null);
-  
+
     const coordinates = await fetchCoordinates(city);
     if (coordinates) {
       await fetchWeatherData(coordinates.latitude, coordinates.longitude);
@@ -76,7 +99,6 @@ function Home() {
       setLoading(false);
     }
   };
-  
 
   return (
     <div>
@@ -101,6 +123,12 @@ function Home() {
             <p className='blinkTextEffect'>Wind Direction: {weatherData.current_weather.winddirection}°</p>
             <p className='blinkTextEffect'>Elevation: {weatherData.elevation} m</p>
             <p className='blinkTextEffect'>Humidity: {Math.round(weatherData.hourly.relative_humidity_2m[0])}%</p>
+            <Space>
+              <Button type="primary" onClick={() => openNotification(weatherData.current_weather.temperature >= 30)}>
+                Wanna Know About Today's Prediction?
+              </Button>
+            </Space>
+            {contextHolder}
           </div>
         )}
       </Space>
