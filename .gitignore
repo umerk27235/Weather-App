@@ -23,6 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-#packages
-package-log
+# Packages
+package-lock
 package-lock.json
